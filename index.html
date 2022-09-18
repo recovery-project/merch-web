@@ -29,13 +29,24 @@
             <div class="mr-auto">
               <nav class="site-navigation position-relative text-right" role="navigation">
                 <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                  <!-- Header menu removed. -->
+                  <li class="active">
+                    <a href="index.html" class="nav-link text-left">Home</a>
+                  </li>
+                  <li>
+                    <a href="index.html" class="nav-link text-left">Menu 1</a>
+                  </li>
+                  <li>
+                    <a href="index.html" class="nav-link text-left">Menu 2</a>
+                  </li>
                 </ul>
               </nav>
             </div>
             <div class="ml-auto">
               <div class="social-wrap">
-                <!-- Header menu removed. -->
+                <a href="index.html" class="text-white">Sign In / Register</a>
+                <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black">
+                  <span class="icon-menu h3 text-white" style="position: relative; top: 7px;"></span>
+                </a>
               </div>
             </div>
           </div>
@@ -415,15 +426,15 @@
           <div class="row justify-content-center text-center">
             <div class="col-lg-7">
               <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLScizUrURDwkyQeG7ufus3KU7_ALIzISmyndC8WsTVpcTe5_OQ/viewform?embedded=true"
-              width="100%"
-              height="900"
-              frameborder="0"
-              marginheight="0"
-              marginwidth="0"
-            >
-              読み込んでいます…
-            </iframe>
+                src="https://docs.google.com/forms/d/e/1FAIpQLScizUrURDwkyQeG7ufus3KU7_ALIzISmyndC8WsTVpcTe5_OQ/viewform?embedded=true"
+                width="100%"
+                height="900"
+                frameborder="0"
+                marginheight="0"
+                marginwidth="0"
+              >
+                読み込んでいます…
+              </iframe>
             </div>
           </div>
         </div>
@@ -460,7 +471,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
     $(function () {
-      // :: Owl Carousel Active Code
+      // Menu for narrow screen.
+      const offCanvasMenu = function () {
+        // Create menu for narrow screen.
+        $('.js-clone-nav').each(function () {
+          $(this).clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
+        });
+        // Toggle offcanvas-menu automatically.
+        $(window).resize(function () {
+          if ($(this).width() > 768) {
+            $('body').removeClass('offcanvas-menu');
+          }
+        });
+        // Provide offcanvas-menu on click js-menu-toggle.
+        $('body').on('click', '.js-menu-toggle', function (e) {
+          e.preventDefault();
+          if ($('body').hasClass('offcanvas-menu')) {
+            $('body').removeClass('offcanvas-menu');
+            $(this).removeClass('active');
+            return;
+          }
+          $('body').addClass('offcanvas-menu');
+          $(this).addClass('active');
+        })
+        // Close offcanvas-menu on click outside of it.
+        $(document).mouseup(function (e) {
+          const $container = $('.site-mobile-menu');
+          if (!$container.is(e.target) && $container.has(e.target).length === 0) {
+            $('body').removeClass('offcanvas-menu');
+          }
+        });
+      };
+      offCanvasMenu();
+
+      // Owl Carousel Active Code.
       if ($.fn.owlCarousel) {
         $('.owl-slide').owlCarousel({
             items: 2,
@@ -474,11 +518,11 @@
             animateOut: 'fadeOut'
         });
       }
-      // :: Animate on scroll Active Code
+      // Animate on scroll Active Code.
       if (AOS.init) {
         AOS.init();
       }
-      // :: Remove #loader.
+      // Remove #loader.
       var loader = function () {
         setTimeout(() => {
           if($('#loader').length > 0) {
